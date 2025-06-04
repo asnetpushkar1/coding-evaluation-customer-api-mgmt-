@@ -9,8 +9,8 @@ microservice-style development.
 
 ## Built With
 
-- **Java 17**
-- **Spring Boot 3.5.0**
+- [Java 17](https://jdk.java.net/17/)
+- [Spring Boot 3.5.0](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.5-Release-Notes)
 - [Spring Web](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web)
 - [Spring Data JPA](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa)
 - [Spring Validation](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation)
@@ -35,8 +35,8 @@ microservice-style development.
 
 1. Clone the repository:
    ```bash
-   git clone https://your-repo-url.git
-   cd coding-evaluation-customer-api-mgmt
+   git clone https://github.com/asnetpushkar1/coding-evaluation-customer-api-mgmt-.git
+   cd coding-evaluation-customer-api-mgmt-
    ```
 
 2. Run using the provided script:
@@ -55,12 +55,12 @@ microservice-style development.
 
 4. Access Swagger UI:
    ```
-   http://localhost:8080/swagger-ui.html
+   http://localhost:8080/swagger-ui/index.html
    ```
 
 ---
 
-## 🔬 Running Tests
+## Running Tests
 
 ```bash
 ./mvnw test
@@ -68,10 +68,10 @@ microservice-style development.
 
 ---
 
-## ✍️ Author
+## Author
 
-**your name**  
-Email: email  
-GitHub: [@your-github](https://github.com/your-github)
+**Pushkar Basnet**  
+Email: basnetpushkar53@gmail.com  
+GitHub: [@yasnetpushkar1](https://github.com/asnetpushkar1)
 
 ---
