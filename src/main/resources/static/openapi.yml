@@ -1,0 +1,272 @@
+openapi: 3.0.4
+info:
+  title: Customer Management API
+  version: 1.0.0
+  description: API for creating, retrieving, updating, and deleting customer data.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /customers:
+    post:
+      summary: Create a new customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequestDTO'
+      responses:
+        '201':
+          description: Customer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponseDTO'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+    get:
+      summary: Retrieve customer by email or name
+      description: Provide either `email` or `name` as query parameter (but not both).
+      operationId: getCustomerByEmailOrName
+      parameters:
+        - in: query
+          name: email
+          required: false
+          schema:
+            type: string
+            format: email
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponseDTO'
+        '400':
+          description: Either 'email' or 'name' is required, not both
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+
+  /customers/{id}:
+    get:
+      summary: Get customer by ID
+      operationId: getCustomerById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Customer retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponseDTO'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+    put:
+      summary: Update customer by ID
+      operationId: updateCustomerById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequestDTO'
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponseDTO'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+    delete:
+      summary: Delete customer by ID
+      operationId: deleteCustomerById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Customer deleted
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponseDTO'
+
+components:
+  schemas:
+    CustomerRequestDTO:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        annualSpend:
+          type: number
+          format: double
+        lastPurchaseDate:
+          type: string
+          format: date-time
+
+    CustomerResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        annualSpend:
+          type: number
+          format: double
+        lastPurchaseDate:
+          type: string
+          format: date-time
+        tier:
+          type: string
+          enum: [SILVER, GOLD, PLATINUM]
+
+    GenericResponseDTO:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Customer not found
+        time:
+          type: string
+          format: date-time
+          example: "2025-06-04T04:28:45.306844"
+
+#openapi: 3.0.0
+#info:
+#  title: Customer Management API
+#  version: 1.0.0
+#
+#paths:
+#  /customers:
+#    post:
+#      summary: Create a new customer
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/CustomerRequest'
+#        required: true
+#      responses:
+#        '201':
+#          description: Customer created successfully
+#        '400':
+#          description: Invalid request (e.g., email not provided or formatted incorrectly)
+#
+#  /customers/{id}:
+#    get:
+#      summary: Retrieve a customer by ID
+#      parameters:
+#        - in: path
+#          name: id
+#          required: true
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: Customer retrieved successfully
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/CustomerResponse'
+#        '404':
+#          description: Customer not found
+#
+#components:
+#  schemas:
+#    CustomerRequest:
+#      type: object
+#      required:
+#        - name
+#        - email
+#      properties:
+#        name:
+#          type: string
+#        email:
+#          type: string
+#        annualSpend:
+#          type: number
+#          format: double
+#        lastPurchaseDate:
+#          type: string
+#          format: date-time
+#
+#    CustomerResponse:
+#      allOf:
+#        - $ref: '#/components/schemas/CustomerRequest'
+#        - type: object
+#          properties:
+#            id:
+#              type: string
+#            tier:
+#              type: string
+#              enum: [Silver, Gold, Platinum]
